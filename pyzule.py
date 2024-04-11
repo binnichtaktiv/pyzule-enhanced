@@ -133,13 +133,14 @@ if not (args.o.endswith(".app") or args.o.endswith(".ipa")):
         args.o += '/'
 
     output_name = args.o + ipa_filename + (f"+{tweak_filenames}" if tweak_filenames else '')
-if os.path.exists(args.o):
+
+'''if os.path.exists(args.o):
     overwrite = input(f"[<] {args.o} already exists. overwrite? [Y/n] ").lower().strip()
     if overwrite in ("y", "yes", ""):
         del overwrite
     else:
         print("[>] quitting.")
-        sys.exit()
+        sys.exit()'''
 EXTRACT_DIR = f".pyzule-{time()}"
 os.makedirs((REAL_EXTRACT_DIR := os.path.join(os.getcwd(), EXTRACT_DIR)))
 
