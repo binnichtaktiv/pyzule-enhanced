@@ -7,7 +7,7 @@ if [[ $ARCH == *"iPhone"* ]]; then
     PYZULEURL="https://raw.githubusercontent.com/asdfzxcvbn/pyzule/main/pyzule-ios.py"
 else
     OS=$(uname)
-    PYZULEURL="https://raw.githubusercontent.com/asdfzxcvbn/pyzule/main/pyzule.py"
+    PYZULEURL="https://raw.githubusercontent.com/binnichtaktiv/pyzule-enhanced/main/pyzule.py"
 fi
 
 PZ_DIR=${HOME}/.config/pyzule
