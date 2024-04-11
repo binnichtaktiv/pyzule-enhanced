@@ -94,7 +94,7 @@ options:
   <li>
   install <code>pyzule</code>:
 
-  <pre lang="bash"><code>bash -c "$(curl https://raw.githubusercontent.com/asdfzxcvbn/pyzule/main/install-pyzule.sh)"</code></pre>
+  <pre lang="bash"><code>bash -c "$(curl https://raw.githubusercontent.com/binnichtaktiv/pyzule-enhanced/main/install-pyzule.sh)"</code></pre>
   </li>
 </ol>
 </details>
