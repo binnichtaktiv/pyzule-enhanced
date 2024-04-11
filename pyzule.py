@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/home/jonas/.config/pyzule/venv/bin/python
 # pyzule! pretty badly written.. but, it works! github.com/asdfzxcvbn/pyzule
 import os
 import sys
@@ -125,15 +125,30 @@ elif args.l and not os.path.isfile(args.l):
 
 # further checking (no errors, just confirmation)
 if not (args.o.endswith(".app") or args.o.endswith(".ipa")):
-    ipa_filename = os.path.basename(args.i)
-    tweak_filenames = '+'.join(os.path.basename(f) for f in args.f) if args.f else ''
+    ipa_filename = os.path.splitext(os.path.basename(args.i))[0]
 
-    #make sure that it ends with /
+    if args.f:
+        tweak_filenames = '+'.join(os.path.splitext(os.path.basename(f))[0] for f in args.f)
+    else:
+        tweak_filenames = ''
+
     if not args.o.endswith('/'):
         args.o += '/'
 
-    output_name = args.o + ipa_filename + (f"+{tweak_filenames}" if tweak_filenames else '')
+    base_output_name = ipa_filename + (f"+{tweak_filenames}" if tweak_filenames else '')
 
+    max_length = 264 - len(args.o) - 4  # - 4 for .ipa
+
+    if len(base_output_name) > max_length:
+        base_output_name = base_output_name[:max_length]
+        print("[*] Shortened filename")
+
+    full_output_name = base_output_name + '.ipa'
+
+    output_name = args.o + full_output_name
+    args.o = output_name
+
+    print(f"[*] Generated file name because you didn't specify one: {args.o}")
 '''if os.path.exists(args.o):
     overwrite = input(f"[<] {args.o} already exists. overwrite? [Y/n] ").lower().strip()
     if overwrite in ("y", "yes", ""):
@@ -727,7 +742,7 @@ if "/" in args.o:
     os.makedirs(args.o.replace(os.path.basename(args.o), ""), exist_ok=True)
 if OUTPUT_IS_IPA:
     move(os.path.join(EXTRACT_DIR, os.path.basename(args.o)), args.o)
-    print(f"[*] generated ipa at {output_name}")
+    print(f"[*] generated ipa at {args.o}")
 else:
     run(f"mv '{APP_PATH}' '{os.path.join(EXTRACT_DIR, os.path.basename(args.o))}'", shell=True, stderr=DEVNULL)  # skipcq: PYL-W1510
     if os.path.exists(args.o):
