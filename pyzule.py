@@ -125,8 +125,14 @@ elif args.l and not os.path.isfile(args.l):
 
 # further checking (no errors, just confirmation)
 if not (args.o.endswith(".app") or args.o.endswith(".ipa")):
-    print("[?] file extension not specified, creating ipa")
-    args.o += ".ipa"
+    ipa_filename = os.path.basename(args.i)
+    tweak_filenames = '+'.join(os.path.basename(f) for f in args.f) if args.f else ''
+
+    #make sure that it ends with /
+    if not args.o.endswith('/'):
+        args.o += '/'
+
+    output_name = args.o + ipa_filename + (f"+{tweak_filenames}" if tweak_filenames else '')
 if os.path.exists(args.o):
     overwrite = input(f"[<] {args.o} already exists. overwrite? [Y/n] ").lower().strip()
     if overwrite in ("y", "yes", ""):
@@ -720,7 +726,7 @@ if "/" in args.o:
     os.makedirs(args.o.replace(os.path.basename(args.o), ""), exist_ok=True)
 if OUTPUT_IS_IPA:
     move(os.path.join(EXTRACT_DIR, os.path.basename(args.o)), args.o)
-    print(f"[*] generated ipa at {args.o}")
+    print(f"[*] generated ipa at {output_name}")
 else:
     run(f"mv '{APP_PATH}' '{os.path.join(EXTRACT_DIR, os.path.basename(args.o))}'", shell=True, stderr=DEVNULL)  # skipcq: PYL-W1510
     if os.path.exists(args.o):
